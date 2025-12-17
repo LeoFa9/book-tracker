@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/dark_card"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Статус"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_text_primary"
+            android:visibility="visible"
+            android:minWidth="100dp"
+            android:gravity="end"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Название книги"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/dark_text_primary"
+            app:layout_constraintEnd_toStartOf="@+id/textViewStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Год"
+            android:textSize="14sp"
+            android:textColor="@color/dark_text_secondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+        <TextView
+            android:id="@+id/textViewAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Автор"
+            android:textSize="14sp"
+            android:textColor="@color/dark_text_secondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewYear"
+            app:layout_constraintTop_toTopOf="@+id/textViewYear" />
+
+        <TextView
+            android:id="@+id/textViewNote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Заметка"
+            android:textSize="12sp"
+            android:textColor="@color/dark_text_secondary"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewYear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+
+

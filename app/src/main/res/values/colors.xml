@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Dark theme colors -->
+    <color name="dark_background">#FF121212</color>
+    <color name="dark_surface">#FF1E1E1E</color>
+    <color name="dark_card">#FF2C2C2C</color>
+    <color name="dark_text_primary">#FFFFFFFF</color>
+    <color name="dark_text_secondary">#B3FFFFFF</color>
+    <color name="dark_accent">#FF6200EE</color>
+    <color name="dark_accent_light">#FF7C4DFF</color>
+    
+    <!-- Gradient colors -->
+    <color name="gradient_start">#FF1A1A2E</color>
+    <color name="gradient_middle">#FF16213E</color>
+    <color name="gradient_end">#FF0F3460</color>
+</resources>

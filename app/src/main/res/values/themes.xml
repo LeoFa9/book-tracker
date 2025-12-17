@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Laba_9" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_accent</item>
+        <item name="colorPrimaryVariant">@color/dark_accent_light</item>
+        <item name="colorOnPrimary">@color/dark_text_primary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.Laba_9" parent="Base.Theme.Laba_9" />
+</resources>
