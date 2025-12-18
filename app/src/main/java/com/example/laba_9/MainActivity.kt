@@ -1,13 +1,17 @@
 package com.example.laba_9
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,12 +31,14 @@ class MainActivity : AppCompatActivity() {
     private val books = mutableListOf<Book>()
     private val KEY_BOOKS = "books"
     private val CHANNEL_ID = "book_tracker_channel"
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         createNotificationChannel()
+        requestNotificationPermission()
         
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -121,23 +127,67 @@ class MainActivity : AppCompatActivity() {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 "Трекер книг",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = "Уведомления о действиях с книгами"
+                enableVibration(true)
+                enableLights(true)
             }
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
     }
 
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) 
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    NOTIFICATION_PERMISSION_REQUEST_CODE
+                )
+            }
+        }
+    }
+
     private fun showNotification(title: String, message: String) {
+        // Проверяем разрешение для Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) 
+                != PackageManager.PERMISSION_GRANTED) {
+                Log.w("MainActivity", "Notification permission not granted")
+                return
+            }
+        }
+
         val notificationManager = getSystemService(NotificationManager::class.java)
+        
+        // Проверяем, что канал существует
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = notificationManager.getNotificationChannel(CHANNEL_ID)
+            if (channel == null) {
+                Log.e("MainActivity", "Notification channel not found, recreating...")
+                createNotificationChannel()
+            }
+        }
+
+        val notificationId = System.currentTimeMillis().toInt()
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle(title)
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setAutoCancel(true)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .build()
-        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+        
+        try {
+            notificationManager.notify(notificationId, notification)
+            Log.d("MainActivity", "Notification sent: $title - $message")
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Failed to show notification", e)
+        }
     }
 }
